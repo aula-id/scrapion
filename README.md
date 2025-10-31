@@ -16,20 +16,6 @@
 - **Structured Reports**: JSON-formatted reports with success/failure tracking
 - **Flexible Output**: Output to stdout or save to file
 
-## Installation
-
-```bash
-# Clone the repository
-git clone <repo-url>
-cd scrapion
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Or use the pre-built virtualenv
-source src-virtualenv/bin/activate
-```
-
 ## Usage
 
 ### As a Library
