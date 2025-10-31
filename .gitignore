@@ -46,6 +46,8 @@ pip-log.txt
 # Project specific
 src-python/
 target/
+*_report.json
 
 # Claude settings (optional - keep if you want to share)
 # .claude/
+.pypirc
