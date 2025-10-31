@@ -15,6 +15,31 @@
 - **Search Integration**: DuckDuckGo search with human-like behavior to evade bot detection
 - **Structured Reports**: JSON-formatted reports with success/failure tracking
 - **Flexible Output**: Output to stdout or save to file
+- **Auto Browser Setup**: Firefox browser automatically installs on first use
+
+## Installation
+
+### From PyPI (Recommended)
+
+```bash
+pip install scrapion
+
+# Firefox browser will auto-install on first use
+```
+
+### Build from Source
+
+```bash
+# Clone the repository
+git clone https://github.com/aula-id/scrapion
+cd scrapion
+
+# Install in editable mode
+pip install -e .
+
+# Or install dependencies manually
+pip install -r requirements.txt
+```
 
 ## Usage
 
@@ -23,27 +48,39 @@
 ```python
 from scrapion import Client
 
-# Create orchestrator
+# Create client (Firefox auto-installs if needed)
 client = Client()
 
-# Process single URL
+# Process single URL - report object contains all data
 report = client.run("https://example.com")
+
+# Access report data directly
+print(f"Successful scrapes: {report.successful_scrapes}")
+print(f"Results: {report.results}")
+print(f"Report dict: {report.to_dict()}")
+
+# Or output to stdout/file
 client.output_report("stdio")
 
 # Process search query
 report = client.run("python async programming")
 client.output_report("file", "./report.json")
+
+# Skip browser check (useful in CI or when browser is pre-installed)
+client = Client(skip_browser_check=True)
+# Or via environment variable
+# SCRAPION_SKIP_BROWSER_CHECK=1 python script.py
 ```
 
 ### As a CLI Tool
 
 ```bash
 # Output to stdout (JSON)
-python3 cli.py "https://example.com" --report stdio
-python3 cli.py "rust tutorial" --report stdio
+scrapion "https://example.com" --report stdio
+scrapion "rust tutorial" --report stdio
 
 # Save to file
-python3 cli.py "machine learning" --report file --output ./results.json
+scrapion "machine learning" --report file --output ./results.json
 ```
 
 ## Architecture
@@ -55,7 +92,7 @@ python3 cli.py "machine learning" --report file --output ./results.json
 3. **search_engine.py**: DuckDuckGo search with Playwright
 4. **web_access.py**: Fetch and convert web content to markdown
 5. **report_generator.py**: Generate JSON reports with metadata
-6. **client.py**: Main workflow orchestrator (follows CONCEPT.md)
+6. **orchestrator.py**: Main Client class workflow orchestrator (follows CONCEPT.md)
 
 ### Workflow (CONCEPT.md)
 
@@ -83,7 +120,29 @@ User Input
     └→ Compile results and output
 ```
 
-## Report Structure
+## Report Object
+
+The `client.run()` method returns a `Report` object with the following attributes:
+
+```python
+# Directly access report data
+report.query                  # Original input (URL or query)
+report.mode                   # "single_url" or "multi_url"
+report.successful_scrapes     # Number of successful scrapes
+report.failed_scrapes         # Number of failed scrapes
+report.results                # List of ScrapeResult objects
+report.failed_urls            # List of failed URLs
+
+# Convert to dict or JSON
+report.to_dict()              # Returns dictionary
+report.to_json()              # Returns JSON string
+
+# Output methods
+report.print_to_stdout()      # Print JSON to stdout
+report.save_to_file("path")   # Save to JSON file
+```
+
+### JSON Structure
 
 ```json
 {
@@ -109,32 +168,28 @@ User Input
 
 ## Examples
 
-See `example.py` for detailed usage examples.
+See `example.py` in the source repository for detailed usage examples.
 
-Run examples:
+If you've built from source:
 ```bash
-source src-virtualenv/bin/activate
 python3 example.py
 ```
 
-## Environment Setup
-
-### Using Pre-built Virtualenv
-
-```bash
-source src-virtualenv/bin/activate
-python3 cli.py "your query" --report stdio
-```
-
-### Creating New Virtualenv
-
-```bash
-python3 -m venv src-virtualenv
-source src-virtualenv/bin/activate
-pip install -r requirements.txt
-```
-
 ## Configuration
+
+### Browser Setup
+
+Firefox browser is automatically installed on first use. To skip the browser check:
+
+```python
+# Skip via constructor parameter
+client = Client(skip_browser_check=True)
+
+# Or via environment variable
+export SCRAPION_SKIP_BROWSER_CHECK=1
+```
+
+### Module Customization
 
 Edit relevant modules to customize:
 - Search engine (DuckDuckGo)
