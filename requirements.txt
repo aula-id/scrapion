@@ -1,0 +1,4 @@
+playwright>=1.40.0
+fake-useragent>=1.4.0
+markdownify>=0.11.0
+pyvirtualdisplay>=3.0

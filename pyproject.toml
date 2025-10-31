@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scrapion"
+version = "0.1.0"
+description = "Web scraping automation system with intelligent fallback mechanisms"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+keywords = ["web-scraping", "automation", "playwright", "duckduckgo"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "playwright>=1.40.0",
+    "fake-useragent>=1.4.0",
+    "markdownify>=0.11.0",
+    "pyvirtualdisplay>=3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "flake8>=6.0",
+]
+
+[project.scripts]
+scrapion = "scrapion.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/scrapion"
+Repository = "https://github.com/yourusername/scrapion"
+Issues = "https://github.com/yourusername/scrapion/issues"
+
+[tool.setuptools]
+packages = ["scrapion"]

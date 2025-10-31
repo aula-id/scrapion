@@ -1,0 +1,5 @@
+include README.md
+include LICENSE
+include requirements.txt
+include CONCEPT.md
+recursive-include scrapion *.py
