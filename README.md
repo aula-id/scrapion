@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.png" alt="Scrapion Logo" width="200"/>
+  <img src="logo.png" alt="Scrapion Logo" width="450"/>
 
   # Scrapion - Web Scraping Automation System
 
