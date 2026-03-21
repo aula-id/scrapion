@@ -1,7 +1,7 @@
 <div align="center">
   <img src="logo.png" alt="Scrapion Logo" width="450"/>
 
-  # Scrapion - Web Scraping Automation System
+  # Scrapion - Web Scraping Automation System.
 
   A Python library for automated web scraping with intelligent fallback mechanisms and accessibility handling.
 </div>
